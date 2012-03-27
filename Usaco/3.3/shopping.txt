@@ -1,0 +1,89 @@
+题目：有些商品需要购买，给出原价和优惠的组合，求出用最小值购买所有需要的商品。
+
+算法：将需要购买的商品数量看成一个有限的背包。那么有两个决策：选优惠或不选优惠。由于至多购买五中商品，所以用一个五维数组表示每种商品购买那么多数量所需要的值。
+
+状态：F[i1][i2][i3][i4][i5]=min(原价购买，优惠购买)
+
+原价：i1*V[1]+i2*V[2]+i3*V[3]+i4*V[4]+i5*V[5];
+
+优惠：F[i1-Kf[i][Id[i][1]]][i2-Kf[i][Id[i][2]]][i3-Kf[i][Id[i][3]]][i4-Kf[i][Id[i][4]]][i5-Kf[i][Id[i][5]]]+Vf[i]
+
+&nbsp;
+<br />
+<pre lang="CPP">
+/*
+ID: xfstart2
+LANG: C++
+PROG: shopping
+*/
+#include<cstdio>
+#include<cstring>
+using namespace std;
+
+int N,M;
+int L[101]={0};
+int Vf[101]={0};
+int Cf[101][6]={0};
+int Kf[101][6]={0};
+int Id[101][6]={0};
+int C[6]={0},K[6]={0},V[6]={0};
+int F[6][6][6][6][6]={0};
+void input()
+{
+    int i,j,t;
+    bool bo[6];
+    scanf("%d",&N);
+    for(i=1;i<=N;++i)
+    {
+        scanf("%d",L+i);
+        for(j=1;j<=L[i];++j)
+            scanf("%d%d",&Cf[i][j],&Kf[i][j]);
+        scanf("%d",Vf+i);
+    }
+    scanf("%d",&M);
+    for(t=1;t<=M;++t)
+    {
+        scanf("%d%d%d",C+t,K+t,V+t);
+        for(i=1;i<=N;++i)
+            for(j=1;j<=L[i];++j)
+                if(C[t] == Cf[i][j])
+                {
+                    Id[i][t]=j;
+                }
+    }
+}
+void solve()
+{
+    int i,i1,i2,i3,i4,i5;
+
+    for(i1=0;i1<=K[1];++i1)
+        for(i2=0;i2<=K[2];++i2)
+            for(i3=0;i3<=K[3];++i3)
+                for(i4=0;i4<=K[4];++i4)
+                    for(i5=0;i5<=K[5];++i5)
+                        if(i1 || i2 || i3 || i4 || i5)
+                        {
+                            F[i1][i2][i3][i4][i5]=i1*V[1]+i2*V[2]+i3*V[3]+i4*V[4]+i5*V[5];
+                            for(i=1;i<=N;++i)
+								
+                                if(i1>=Kf[i][Id[i][1]]&&i2>=Kf[i][Id[i][2]]&&i3>=Kf[i][Id[i][3]]&&i4>=Kf[i][Id[i][4]]&&i5>=Kf[i][Id[i][5]])
+									
+                                    if(F[i1][i2][i3][i4][i5] > F[i1-Kf[i][Id[i][1]]][i2-Kf[i][Id[i][2]]][i3-Kf[i][Id[i][3]]][i4-Kf[i][Id[i][4]]][i5-Kf[i][Id[i][5]]]+Vf[i])
+                                        F[i1][i2][i3][i4][i5]=F[i1-Kf[i][Id[i][1]]][i2-Kf[i][Id[i][2]]][i3-Kf[i][Id[i][3]]][i4-Kf[i][Id[i][4]]][i5-Kf[i][Id[i][5]]]+Vf[i];
+                        }
+}
+void output()
+{
+    printf("%d\n",F[K[1]][K[2]][K[3]][K[4]][K[5]]);
+}
+int main()
+{
+    freopen("shopping.in","r",stdin);
+    freopen("shopping.out","w",stdout);
+    input();
+    solve();
+    output();
+    return 0;
+}
+</pre>
+<br />
