@@ -1,0 +1,1039 @@
+RQNOJ 22-26题
+火星人
+ 
+program n22_1;
+var
+  n,m,i,j,k,t:integer;
+  a:array[1..10000]of integer;
+begin
+  readln(n,m);
+  for i:=1 to n do read(a[i]);
+  for i:=1 to m
+  do begin
+     k:=n;
+     while (k>1)and(a[k-1]>a[k]) do dec(k);
+     if k=1 then halt;
+     dec(k);
+     j:=n;
+     while (j>k)and(a[j]<a[k]) do dec(j);
+     t:=a[k];a[k]:=a[j];a[j]:=t;
+     inc(k);j:=n;
+     while k<j
+     do begin
+        t:=a[j];a[j]:=a[k];a[k]:=t;
+        inc(k);dec(j);
+        end;
+     end;
+  write(a[1]);
+  for i:=2 to n do write(' ',a[i]);
+end.
+
+花生采摘
+ 
+program n23_3;
+var
+  m,n,k,i,j,t,ans,aa:longint;
+  a,x,y:array[0..401]of longint;
+begin
+  readln(m,n,k);
+  for i:=1 to m do for j:=1 to n
+  do begin
+     read(aa);
+     if aa<>0
+     then begin
+          inc(t);
+          x[t]:=i;y[t]:=j;a[t]:=aa;
+          end;
+     end;
+  for i:=1 to t-1 do
+  for j:=t-1 downto 1 do
+  if a[j]<a[j+1]
+  then begin
+       aa:=a[j];a[j]:=a[j+1];a[j+1]:=aa;
+       aa:=x[j];x[j]:=x[j+1];x[j+1]:=aa;
+       aa:=y[j];y[j]:=y[j+1];y[j+1]:=aa;
+       end;
+  dec(k);//into the field
+  x[0]:=1;y[0]:=y[1];
+  for i:=1 to t
+  do begin
+     aa:=abs(x[i]-x[i-1])+abs(y[i]-y[i-1])+1;
+     if k-aa-x[i]<0 then break;
+     dec(k,aa);
+     inc(ans,a[i]);
+     end;
+  write(ans);
+end.
+
+津津的储蓄计划
+ 
+program n24_1;
+var
+  i,j,m,x:integer;
+begin
+  for i:=1 to 12
+  do begin
+     readln(x);
+     inc(j,300);
+     dec(j,x);
+     if j<0
+     then begin
+          write('-',i);
+          halt;
+          end;
+     inc(m,j div 100*100);
+     j:=j mod 100;
+     end;
+  write(j+m+m div 5);
+end. 
+
+合并果子
+ 
+program n25_1;
+var
+  i,min,q,h,t,m,n,ans:longint;
+  a,b:array[1..10000]of longint;
+  f:array[1..20000]of longint;
+begin
+  readln(n);
+  for i:=1 to n
+  do begin
+     read(t);
+     inc(f[t]);
+     end; 
+
+  n:=0;
+  for i:=1 to 20000 do
+  if f[i]>0 then
+  while f[i]>0
+  do begin
+     inc(n);
+     a[n]:=i;
+     dec(f[i]);
+     end; 
+
+  q:=1;
+  h:=1;t:=0;
+  for i:=1 to n-1
+  do begin
+     min:=maxlongint;
+     if q<n then
+     if a[q]+a[q+1]<min
+     then begin
+          min:=a[q]+a[q+1];
+          m:=1;
+          end;
+     if (q<=n)and(h<=t) then
+     if a[q]+b[h]<min
+     then begin
+          min:=a[q]+b[h];
+          m:=2;
+          end;
+     if h<t then
+     if b[h]+b[h+1]<min
+     then begin
+          min:=b[h]+b[h+1];
+          m:=3;
+          end; 
+
+     case m
+     of 1:inc(q,2);
+        2:begin
+          inc(q);inc(h);
+          end;
+        3:inc(h,2);
+        end;
+     inc(t);
+     b[t]:=min;
+     inc(ans,min);
+     end;
+  write(ans);
+end.
+
+合唱队形 
+
+program n26_1;
+var
+  i,j,n,max:integer;
+  a,f,g:array[1..100]of integer;
+begin
+  readln(n);
+  for i:=1 to n do read(a[i]); 
+
+  for i:=2 to n do
+  for j:=1 to i-1 do
+  if (a[j]<a[i]) and (f[j]+1>f[i]) then f[i]:=f[j]+1; 
+
+  for i:=n-1 downto 1 do
+  for j:=n downto i+1 do
+  if (a[j]<a[i]) and (g[j]+1>g[i]) then g[i]:=g[j]+1; 
+
+  for i:=1 to n do
+  if f[i]+g[i]>max then max:=f[i]+g[i];
+  write(n-max-1);
+end.
+6月9日 13:56 | 添加评论 | 发送消息 | 固定链接 | 查看引用通告 (0) | 写入日志 | 任青 RQNOJRQNOJ 16-20题（除去18）
+谁拿了最多奖学金 
+
+program n16_1;
+var
+  n,i,qimo,banji,lw,a,max,t:longint;
+  ch,xibu,ganbu:char;
+  name,m:string;
+begin
+  readln(n);  
+  for i:=1 to n
+  do begin
+     name:='';
+     read(ch);
+     while ch<>' '
+     do begin
+        name:=name+ch;
+        read(ch);
+        end;
+     read(qimo,banji);
+     read(ch);read(ganbu);
+     read(ch);read(xibu);
+     readln(lw);
+     a:=0;
+     //yuanshi
+     if (qimo>80)and(lw>0) then inc(a,800);
+     //wusi
+     if (qimo>85)and(banji>80) then inc(a,400);
+     //chengji
+     if qimo>90 then inc(a,200);
+     //xibu
+     if (qimo>85)and(xibu='Y') then inc(a,100);
+     //banji
+     if (banji>80)and(ganbu='Y') then inc(a,85);
+     if a>max
+     then begin
+          max:=a;
+          m:=name;
+          end;
+     inc(t,a);
+  end;
+  writeln(m);
+  writeln(max,0);
+  write(t,0);
+end. 
+
+  
+
+过河
+ 
+program n17_1;
+var
+  r,f:array[-10..32000]of integer;
+  a:array[1..100]of longint;
+  l,s,t,m,i,j,min,p:longint;
+procedure srt(l,r:longint);
+var
+  i,j,x,y:longint;
+begin
+  i:=l;j:=r;
+  x:=a[(l+r)div 2];
+  repeat
+    while a[i]<x do inc(i);
+    while a[j]>x do dec(j);
+    if i<=j
+    then begin
+         y:=a[i];a[i]:=a[j];a[j]:=y;
+         inc(i);dec(j);
+         end;
+  until i>j;
+  if i<r then srt(i,r);
+  if l<j then srt(l,j);
+end;
+begin
+  readln(l,s,t,m);
+  for i:=1 to m do read(a[i]);
+  srt(1,m);
+  if s=t
+  then begin
+       for i:=1 to m do
+       if a[i] mod s=0 then inc(min);
+       write(min);
+       end;
+  p:=0;
+  for i:=1 to m
+  do begin
+     if a[i]-a[i-1]>100
+     then begin
+          r[p+100]:=1;
+          inc(p,100);
+          end
+     else begin
+          r[p+a[i]-a[i-1]]:=1;
+          inc(p,a[i]-a[i-1]);
+          end;
+     end;
+  if l-a[m]>100 then l:=p+100 else l:=p+l-a[m];
+  for i:=l+t+1 downto 1 do f[i]:=maxint;
+  for i:=s to l+t-1 do
+  for j:=i-t to i-s do
+  if j>=0 then
+  if f[j]+r[i]<f[i] then f[i]:=f[j]+r[i];
+  min:=maxlongint;
+  for i:=l to l+t-1 do
+  if f[i]<min then min:=f[i];
+  write(min);
+end.
+
+ 
+篝火晚会
+ 
+program n19_3;
+var
+  n,i,j,t,p,ans:longint;
+  a:array[1..50000]of longint;
+  f:array[1..50000]of longint;
+  c:array[1..50000,1..2]of longint;
+  h:array[1..50000]of boolean;
+procedure check;
+begin
+  fillchar(f,sizeof(f),0);
+  for i:=1 to n do
+  inc(f[(a[i]+n-i)mod n+1]);
+  for i:=1 to n do if f[i]>ans then ans:=f[i];
+end;
+begin
+  readln(n);
+  for i:=1 to n do read(c[i,1],c[i,2]);
+  a[1]:=1;
+  for i:=2 to n
+  do begin
+     p:=a[i-1];
+     h[p]:=true;
+     a[i]:=c[p,1];
+     if h[a[i]] then a[i]:=c[p,2];
+     if h[a[i]]
+     then begin
+          write(-1);
+          halt;
+          end;
+     end;
+  check;
+  for i:=n div 2 downto 1
+  do begin
+     t:=a[i];a[i]:=a[n+1-i];a[n+1-i]:=t;
+     end;
+  check;
+  write(n-ans);
+end.
+
+ 
+不高兴的津津
+ 
+program n20_1;
+var
+  i,a,b,max,t:integer;
+  f:boolean;
+begin
+  for i:=1 to 7
+  do begin
+     readln(a,b);
+     a:=a+b;
+     if a>8 then f:=true;
+     if a>max
+     then begin
+          max:=a;
+          t:=i;
+          end;
+     end;
+  if f then write(t) else write(0);
+end.6月9日 11:06 | 添加评论 | 发送消息 | 固定链接 | 查看引用通告 (0) | 写入日志 | 任青 RQNOJ（颓题）FBI树
+program FBI;
+var
+a:array[1..3000]of char;
+c:char;
+n,x,i:integer;
+ 
+procedure bianli(t:integer);
+begin
+  if t<x then begin bianli(2*t); bianli(2*t+1); end;
+  write(a[t]);
+end;
+ 
+begin
+readln(n);
+if n=0 then
+  begin
+   read(c);
+   if c='0' then writeln('B') else writeln('I');
+   halt;
+  end;
+x:=1;
+for i:=1 to n do x:=2*x;
+for i:=x to 2*x-1 do
+  begin
+   read(c);
+   if c='0' then a[i]:='B' else a[i]:='I';
+  end;
+for i:=x-1 downto 1 do
+  if (a[2*i]='I') and (a[2*i+1]='I') then a[i]:='I'
+   else if (a[2*i]='B') and (a[2*i+1]='B') then a[i]:='B'
+   else a[i]:='F';
+bianli(1);
+end.
+ 
+我当年写的。一看编程风格就不一样。像这个思路我现在肯定想不出来，一年前的我真有歪才啊！
+ 
+下面是我现在写的（在某种程度上还不如上边那个，但是短。）
+ 
+program n21_1;
+const
+  m:array[1..10] of integer=(2,4,8,16,32,64,128,256,512,1024);
+var
+  n,i:integer;
+  ch:char;
+  s:array[1..1024]of char;
+ 
+function fbi(l,r:integer):char;
+var
+  k:integer;
+  f1,f2:char;
+begin
+  if l=r then
+  if s[l]='0' then exit('B') else exit('I');
+  k:=(l+r)div 2;
+  f1:=fbi(l,k);write(f1);f2:=fbi(k+1,r);write(f2);
+  if (f1='B')and(f2='B') then exit('B');
+  if (f1='I')and(f2='I') then exit('I');
+  exit('F');
+end;
+ 
+begin
+  readln(n);
+  if n=0
+  then begin
+       read(ch);
+       if ch='1' then write('I') else write('B');
+       halt;
+       end;
+  for i:=1 to m[n] do read(s[i]);
+  write(fbi(1,m[n]));
+end.6月9日 10:32 | 添加评论 | 发送消息 | 固定链接 | 查看引用通告 (0) | 写入日志 | 任青 RQNOJ等价表达式（Unaccepted）
+等价表达式（Unaccepted）
+得分： 40分
+有效耗时： 178毫秒 
+测试结果1: 测试结果正确 
+测试结果2: 测试结果错误.错误结果为:CG
+正确结果应为:CEG 
+测试结果3: 测试结果正确 
+测试结果4: 测试结果错误.错误结果为:DZ
+正确结果应为:DMZ 
+测试结果5: 无输出|运行超时 
+测试结果6: 无输出|运行超时 
+测试结果7: 无输出|运行超时 
+测试结果8: 测试结果正确 
+测试结果9: 测试结果正确 
+测试结果10: 无输出|运行超时 
+
+program n18_2;
+const
+  prime=35111;
+var
+  s,st1:string;
+  i,j,n,num,ans,a:longint;
+  d:array[64..90]of boolean;
+  st:array[64..90]of string;
+function f(s:string):longint;
+var
+  s1,s2:string;
+  l,i,j,k,r,t:longint;ss,tt:qword;
+  cf:boolean;
+begin
+  if s='a' then exit(num);
+  l:=length(s);k:=0;r:=0;cf:=false;
+  for i:=l downto 1
+  do if s[i]='(' then dec(k)
+     else if s[i]=')' then inc(k)
+     else if k<>0 then continue
+     else if (s[i]='+')or(s[i]='-')
+     then begin
+           s1:=copy(s,1,i-1);
+           s2:=copy(s,i+1,l-i);
+           if s[i]='+'
+           then exit((f(s1)+f(s2))mod prime)
+           else exit((f(s1)-f(s2)+prime)mod prime);
+           end
+     else if s[i]='*'
+          then begin if r=0 then r:=i end
+     else if s[i]='^'
+          then begin
+               if (r=0)or(s[r]='*')
+               then begin
+                    r:=i;
+                    cf:=true;
+                    end;
+               end;
+     if r<>0
+     then begin
+          s1:=copy(s,1,r-1);
+          s2:=copy(s,r+1,l-r);
+          if s[r]='*'
+          then exit((f(s1)*f(s2))mod prime)
+          else begin
+               ss:=f(s1);
+               tt:=1;
+               for t:=f(s2)downto 1 do tt:=tt*ss mod prime;
+               exit(tt);
+               end;
+          end
+     else if (s[1]='(')and(s[l]=')')
+          then begin
+               s1:=copy(s,2,l-2);
+               exit(f(s1));
+               end
+          else begin
+               val(s,k,r);
+               exit(k mod prime);
+               end;
+end;
+begin
+  readln(st1);
+  for j:=length(st1) downto 1 do if st1[j]<>' ' then s:=st1[j]+s;
+  readln(n);
+  for i:=65 to 64+n
+  do begin
+     readln(st1);
+     for j:=length(st1) downto 1 do if st1[j]<>' ' then st[i]:=st1[j]+st[i];
+     d[i]:=true;
+     end;
+  randomize;
+  for i:=1 to 7
+  do begin
+     num:=random(prime);
+     ans:=f(s);
+     for j:=65 to 64+n do
+     if d[j]
+     then begin
+          a:=f(st[j]);
+          if a<>ans then d[j]:=false;
+          end;
+     end;
+  for i:=65 to 64+n do
+  if d[i] then write(chr(i));
+end.
+ 
+（首先，把字符串中的空格去掉……）
+ 
+我也是用的往里代数的方法。生成几个随机数，然后看哪个式子的结果和原式相同。不知道那里打错了还是有溢出之类的致命错误。
+思路应该没问题。先找出运算符，然后把两边的式子递归。可能有特殊情况我没想到，但是和一个同学讨论了半天，好像这个方法不赖了。
+改天弄个数据！6月9日 10:24 | 添加评论 | 发送消息 | 固定链接 | 查看引用通告 (0) | 写入日志 | 任青 RQNOJRQNOJ 6-15题
+ 
+编号  提交者  问题编号  状态  得分  语言  测评机  详情  
+40890  DFS  8  Accepted  100分  FreePascal  Virmain[1]  查看  
+40441  DFS  10  Unaccepted  0分  FreePascal  Virmain[1]  查看  
+40141  DFS  15  Accepted  100分  FreePascal  Virmain[1]  查看  
+40072  DFS  13  Accepted  100分  FreePascal  Virmain[1]  查看  
+40037  DFS  12  Accepted  100分  FreePascal  Virmain[1]  查看  
+40021  DFS  11  Accepted  100分  FreePascal  Virmain[1]  查看  
+39998  DFS  9  Accepted  100分  FreePascal  Virmain[1]  查看  
+39996  DFS  9  No Compiled  0分  FreePascal  Virmain[1]  查看  
+39975  DFS  9  Unaccepted  20分  FreePascal  Virmain[1]  查看  
+39195  DFS  9  Unaccepted  70分  FreePascal  Virmain[1]  查看  
+39190  DFS  9  Unaccepted  70分  FreePascal  Virmain[1]  查看  
+39185  DFS  9  Unaccepted  50分  FreePascal  Virmain[1]  查看  
+39179  DFS  9  Unaccepted  10分  FreePascal  Virmain[1]  查看  
+39177  DFS  9  Unaccepted  10分  FreePascal  Virmain[1]  查看  
+38598  DFS  7  Accepted  100分  FreePascal  Virmain[1]  查看  
+38552  DFS  6  Accepted  100分  FreePascal  Virmain[1]  查看 
+
+
+金明的预算方案 
+
+program n6_1;
+var
+  n,m,i,j,price,value,xx,tmpp,tmpv:longint;
+  p,v:array[1..60]of longint;
+  pp,vv:array[1..60,1..2]of longint;
+  f,g:array[0..32000]of longint;
+begin
+  readln(n,m);
+  for i:=1 to m
+  do begin
+     readln(price,value,xx);
+     value:=value*price;
+     if xx<>0
+     then begin
+          if vv[xx,1]=0
+          then begin
+               vv[xx,1]:=value;
+               pp[xx,1]:=price;
+               end
+          else begin
+               vv[xx,2]:=value;
+               pp[xx,2]:=price;
+               end
+          end
+     else begin
+          v[i]:=value;
+          p[i]:=price;
+          end;
+     end; 
+
+  for i:=1 to m
+  do begin
+     if v[i]=0 then continue;
+     f:=g;
+     for j:=n downto p[i] do if g[j]<f[j-p[i]]+v[i] then g[j]:=f[j-p[i]]+v[i];
+     if pp[i,1]=0 then continue;
+     tmpp:=p[i]+pp[i,1];tmpv:=v[i]+vv[i,1];
+     for j:=n downto tmpp do if g[j]<f[j-tmpp]+tmpv then g[j]:=f[j-tmpp]+tmpv;
+     if pp[i,2]=0 then continue;
+     tmpp:=p[i]+pp[i,2];tmpv:=v[i]+vv[i,2];
+     for j:=n downto tmpp do if g[j]<f[j-tmpp]+tmpv then g[j]:=f[j-tmpp]+tmpv;
+     tmpp:=p[i]+pp[i,1]+pp[i,2];tmpv:=v[i]+vv[i,1]+vv[i,2];
+     for j:=n downto tmpp do if g[j]<f[j-tmpp]+tmpv then g[j]:=f[j-tmpp]+tmpv;
+     end;
+  write(g[n]);
+end. 
+
+  
+
+作业调度方案 
+
+也许范围太小，也许数据太弱，这么天真的算法都能一遍通过。 
+
+program n7_1;
+var
+  tt,nm,nw,i,j,k,time,mchn,ans:integer;
+  turn:array[1..20]of integer;
+  a:array[1..400]of integer;
+  tm,mc:array[1..20,1..20]of integer;
+  f:array[1..20,0..20]of integer
+                                ;
+  st:array[1..20,1..1000]of boolean;
+  found:boolean;
+begin
+  readln(nm,nw);
+  tt:=nm*nw;
+  for i:=1 to tt do read(a[i]);
+  for i:=1 to nw do for j:=1 to nm do read(mc[i,j]);
+  for i:=1 to nw do for j:=1 to nm do read(tm[i,j]); 
+
+  for i:=1 to tt
+  do begin
+     inc(turn[a[i]]);
+     time:=tm[a[i],turn[a[i]]];
+     mchn:=mc[a[i],turn[a[i]]];
+     for j:=f[a[i],turn[a[i]]-1]+1 to 1000 do
+     if not st[mchn,j]
+     then begin
+          found:=true;
+          for k:=j+1 to j+time-1 do
+          if st[mchn,k]
+          then begin
+               found:=false;
+               break;
+               end;
+          if not found then continue;
+          for k:=j to j+time-1 do st[mchn,k]:=true;
+          f[a[i],turn[a[i]]]:=j+time-1;
+          if f[a[i],turn[a[i]]]>ans then ans:=f[a[i],turn[a[i]]];
+          break;
+          end;
+     end;
+  write(ans);
+end. 
+
+  
+
+2^k进制数 
+
+program n8_1;
+type
+  bignum=array[1..51]of integer;
+var
+  k,w,m,n,l,r,i,j:integer;
+  a:bignum;
+  c:array[0..1000,-1..1000]of bignum;//组合数 
+
+function add(a1,a2:bignum):bignum;//高精度加法
+var
+  i:integer;
+begin
+  fillchar(add,sizeof(add),0);
+  for i:=1 to 50
+  do begin
+     add[i]:=add[i]+a1[i]+a2[i];
+     add[i+1]:=add[i+1]+add[i] div 10000;
+     add[i]:=add[i] mod 10000;
+     end;
+end; 
+
+begin
+  readln(k,w);
+  r:=1 shl(w mod k)-1;//最高位最大是几
+  l:=1 shl k-1;//其他位最大是几
+  n:=w div k;//有几“节” 
+
+  c[0,0,1]:=1;
+  for i:=1 to l do for j:=0 to i do
+  c[i,j]:=add(c[i-1,j-1],c[i-1,j]);//利用组合数性质计算 
+
+  for i:=1 to r do a:=add(a,c[l-i,n]);//最高位有数的情况
+  for i:=2 to n do a:=add(a,c[l,i]);//最高位没有数 
+
+  m:=50;
+  while a[m]=0 do dec(m);
+  for i:=m downto 1
+  do begin
+     if i<>m then
+     if a[i]<10 then write('000')
+     else if a[i]<100 then write('00')
+     else if a[i]<1000 then write('0');
+     write(a[i]);
+     end;
+end. 
+
+  
+
+
+佳佳的魔法照片 
+
+program n9_8;
+type
+  data=record
+       w,num:longint;
+       end;
+var
+  n,k,i,j:longint;
+  a:array[1..100000]of data;
+  e:array[1..10]of longint; 
+
+procedure srt(l,r:longint);
+var
+  i,j,x,y:longint;
+  t:data;
+begin
+  i:=l;j:=r;
+  x:=a[(l+r)div 2].w;
+  y:=a[(l+r)div 2].num;
+  repeat
+    while (a[i].w>x) or ((a[i].w=x)and(a[i].num<y)) do inc(i);
+    while (a[j].w<x) or ((a[j].w=x)and(a[j].num>y)) do dec(j);
+    if i<=j
+    then begin
+         t:=a[i];a[i]:=a[j];a[j]:=t;
+         inc(i);dec(j);
+         end;
+  until i>j;
+  if i<r then srt(i,r);
+  if j>l then srt(l,j);
+end; 
+
+begin
+  readln(n,k);
+  for i:=1 to 10 do read(e[i]);
+  for i:=1 to n
+  do begin
+     read(a[i].w);
+     a[i].num:=i;
+     end;
+  srt(1,n);
+  for i:=1 to n do a[i].w:=a[i].w+e[(i-1) mod 10+1];
+  srt(1,n);
+  write(a[1].num);
+  for i:=2 to k do write(' ',a[i].num);
+end. 
+
+  
+
+单词游戏 
+
+题目看不懂，数据cheat不来。 
+
+  
+
+计数的梦 
+
+program n11_1;
+var
+  s:string;
+  a,b,x,l,i:longint;
+  n:array['0'..'9']of longint;
+begin
+  readln(a,b);
+  for x:=a to b
+  do begin
+     str(x,s);
+     l:=length(s);
+     for i:=1 to l do inc(n[s[i]]);
+     end;
+  write(n['0'],' ',n['1'],' ',n['2'],' ',n['3'],' ',n['4'],' ',n['5'],' ',n['6'],' ',n['7'],' ',n['8'],' ',n['9']);
+end. 
+
+  
+
+陶陶摘苹果 
+
+program n12_1;
+var
+  a:array[1..10]of integer;
+  h,i,ans:integer;
+begin
+  for i:=1 to 10 do read(a[i]);
+  read(h);
+  inc(h,30);
+  for i:=1 to 10 do if a[i]<=h then inc(ans);
+  write(ans);
+end. 
+
+  
+
+校门外的树 
+
+program n13_1;
+var
+  f:array[0..10000] of boolean;
+  l,m,a,b,i,j,ans:integer;
+begin
+  readln(l,m);
+  for i:=1 to m
+  do begin
+     readln(a,b);
+     for j:=a to b do f[j]:=true;
+     end;
+  for i:=0 to l do if not f[i] then inc(ans);
+  write(ans);
+end. 
+
+  
+
+循环 
+
+ program n14_1;
+type
+  bignum=array[0..101]of integer;
+var
+  a,b,c,nxt,ans:bignum;
+  ch:char;
+  s:string;
+  i,j,k,l,ansl:integer; 
+
+function mm(a1:bignum;a2:bignum):bignum;
+var
+  i,j:integer;
+begin
+  fillchar(mm,sizeof(mm),0);
+  for i:=k-1 downto 0 do
+  for j:=k-i-1 downto 0 do
+  if i+j<=k then inc(mm[i+j],a1[i]*a2[j]);
+  for i:=0 to k-1
+  do begin
+     inc(mm[i+1],mm[i] div 10);
+     mm[i]:=mm[i] mod 10;
+     end;
+end; 
+
+procedure m(var a1:bignum;a2:integer);
+var
+  i:integer;
+begin
+  for i:=1 to k
+  do begin
+     a1[i]:=a1[i]*a2+a1[i-1] div 10;
+     a1[i-1]:=a1[i-1] mod 10;
+     end;
+  end; 
+
+begin
+  read(ch);
+  while ch<>' '
+  do begin
+     s:=s+ch;
+     read(ch);
+     end;
+  readln(k);
+  l:=length(s);
+  if l>k
+  then begin
+       delete(s,1,l-k);
+       l:=k;
+       end;
+  for i:=0 to l-1 do a[i]:=ord(s[l-i])-48;
+  b:=a; 
+
+  ans[1]:=1;ansl:=1;
+  for i:=0 to k-1
+  do begin
+     c:=b;
+     j:=1;
+     while j<=10
+     do begin
+        nxt:=mm(b,a);
+        if nxt[i]=a[i]
+        then begin
+             m(ans,j);
+             break;
+             end;
+        b:=mm(b,c);
+        inc(j);
+        end;
+     if j=11
+     then begin
+          write(-1);
+          halt;
+          end;
+     end;
+  while ans[k]=0 do dec(k);
+  for i:=k downto 1 do write(ans[i]);
+end. 
+
+  
+
+采药 
+
+program p15_1;
+var
+  f:array[0..1000]of integer;
+  t,m,i,j,time,val:integer;
+begin
+  readln(t,m);
+  for i:=1 to m
+  do begin
+     readln(time,val);
+     for j:=t downto time do
+     if f[j]<f[j-time]+val then f[j]:=f[j-time]+val;
+     end;
+  write(f[t]);
+end. 
+5月14日 7:02 | 添加评论 | 发送消息 | 固定链接 | 查看引用通告 (0) | 写入日志 | 任青 RQNOJRQNOJ 的前5道弱智题目
+编号  提交者  问题编号  状态  得分  语言  测评机  详情  
+38276  DFS  5  Accepted  100分  FreePascal  Virmain[1]  查看  
+38213  DFS  4  Accepted  100分  FreePascal  Virmain[1]  查看  
+38205  DFS  3  Accepted  100分  FreePascal  Virmain[1]  查看  
+38204  DFS  2  Accepted  100分  FreePascal  Virmain[1]  查看  
+38203  DFS  1  Accepted  100分  FreePascal  Virmain[1]  查看 
+
+  
+
+明明的随机数 
+
+program n1_1;
+var
+  a:array[1..1000]of boolean;
+  n,x,i,ans:integer;
+  f:boolean;
+begin
+  readln(n);
+  for i:=1 to n
+  do begin
+     read(x);
+     if not a[x] then inc(ans);
+     a[x]:=true;
+     end;
+  writeln(ans);
+  for i:=1 to 1000 do
+  if a[i] then
+   if f then write(' ',i)
+   else begin
+        write(i);
+        f:=true;
+        end;
+end. 
+
+  
+
+开心的金明 
+
+program n2_1;
+var
+  f:array[0..30000]of longint;
+  n,m,i,j,price,w:longint;
+begin
+  readln(n,m);
+  for i:=1 to m
+  do begin
+     readln(price,w);
+     w:=w*price;
+     for j:=n downto price do
+     if f[j]<f[j-price]+w then f[j]:=f[j-price]+w;
+     end;
+  write(f[n]);
+end. 
+
+  
+
+ Jam的计数法 
+
+program n3_1;
+var
+  a:array[1..26]of char;
+  s,t,w,i,j,k:integer;
+begin
+  readln(s,t,w);
+  for i:=1 to w do read(a[i]);
+  for i:=1 to 5
+  do begin
+     k:=w;
+     if ord(a[k])=t+96
+     then begin
+          dec(k);
+          while (k<>0) and (a[k]=pred(a[k+1])) do dec(k);
+          if k=0 then break;
+          end;
+     a[k]:=succ(a[k]);
+     for j:=k+1 to w do a[j]:=succ(a[j-1]);
+     for j:=1 to w do write(a[j]);
+     writeln;
+     end;
+end. 
+
+  
+
+数列 
+
+program n4_1;
+var
+  k,n,i,p1,p2:longint;
+  a:array[1..1001]of longint;
+begin
+  readln(k,n);
+  a[1]:=1;a[2]:=k;
+  p1:=1;p2:=2;
+  i:=3;
+  while i<=n
+  do begin
+     a[i]:=a[p1]+a[p2];
+     inc(p1);
+     if p1=p2
+     then begin
+          inc(i);
+          a[i]:=a[p2]*k;
+          p2:=i;p1:=1;
+          end;
+     inc(i);
+     end;
+  write(a[n]);
+end. 
+
+  
+
+能量项链 
+
+program n5_1;
+var
+  f:array[1..201,1..201]of longint;
+  n,i,j,k,ans:longint;
+begin
+  readln(n);
+  for i:=1 to n
+  do begin
+     read(f[i,i]);
+     f[n+i,n+i]:=f[i,i];
+     end;
+  f[2*n+1,2*n+1]:=f[i,i];
+  for i:=1 to n-1 do
+  for j:=1 to 2*n-i+1 do
+  for k:=j+1 to j+i do
+  if f[j,k-1]+f[k,j+i]+f[j,j]*f[k,k]*f[i+j+1,i+j+1]>f[j,i+j]
+  then f[j,i+j]:=f[j,k-1]+f[k,j+i]+f[j,j]*f[k,k]*f[i+j+1,i+j+1];
+  for i:=1 to n do
+  if f[i,i+n-1]>ans then ans:=f[i,i+n-1];
+  for i:=1 to n do dec(ans,f[i,i]);
+  write(ans);
+end.
